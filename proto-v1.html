@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GradeScope - Calculator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0f12 60%, #1a1a22 100%);
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* NAVBAR */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    border-bottom: 1px solid rgba(255,70,85,0.2);
+}
+
+.logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+}
+
+.group-tag {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #aaa;
+    margin-left: 30px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ff4655;
+}
+
+/* MAIN */
+.main {
+    min-height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* CALCULATOR BOX */
+.calculator-box {
+    background: #14141b;
+    padding: 45px;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid rgba(255,70,85,0.3);
+    position: relative;
+}
+
+.calculator-box::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 60px;
+    height: 60px;
+    border-top: 3px solid #ff4655;
+    border-left: 3px solid #ff4655;
+}
+
+.calculator-box h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+/* INPUT */
+.input-group {
+    margin-bottom: 22px;
+}
+
+.input-group label {
+    font-size: 12px;
+    color: #bbb;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    background: #0f0f14;
+    border: 1px solid #333;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #ff4655;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 13px;
+    background-color: #ff4655;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #e03b49;
+}
+
+/* RESULT */
+.result {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    nav {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div>
+        <div class="logo">GRADESCOPE</div>
+        <div class="group-tag">A Product by Group 8</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="product.html">Product</a>
+        <a href="#">Profile</a>
+        <a href="#">Design Process</a>
+    </div>
+</nav>
+
+<div class="main">
+    <div class="calculator-box">
+        <h1>GRADE TARGET CALCULATOR</h1>
+
+        <div class="input-group">
+            <label>NILAI SAAT INI</label>
+            <input type="number" id="currentScore">
+        </div>
+
+        <div class="input-group">
+            <label>TARGET NILAI AKHIR</label>
+            <input type="number" id="targetScore">
+        </div>
+
+        <div class="input-group">
+            <label>JUMLAH PENILAIAN TERSISA</label>
+            <input type="number" id="remainingTasks">
+        </div>
+
+        <button onclick="calculate()">CALCULATE</button>
+
+        <div class="result" id="result"></div>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    let current = parseFloat(document.getElementById("currentScore").value);
+    let target = parseFloat(document.getElementById("targetScore").value);
+    let remaining = parseInt(document.getElementById("remainingTasks").value);
+
+    if (isNaN(current) || isNaN(target) || isNaN(remaining) || remaining <= 0) {
+        document.getElementById("result").innerHTML = "Input tidak valid.";
+        return;
+    }
+
+    let neededTotal = (target - current);
+    let neededPerTask = neededTotal / remaining;
+
+    if (neededPerTask <= 0) {
+        document.getElementById("result").innerHTML = 
+        "Target sudah aman. Pertahankan performa.";
+    } 
+    else if (neededPerTask > 100) {
+        document.getElementById("result").innerHTML = 
+        "Secara matematis target sulit tercapai.";
+    } 
+    else {
+        document.getElementById("result").innerHTML = 
+        "Rata-rata nilai yang dibutuhkan: <b>" 
+        + neededPerTask.toFixed(2) + "</b>";
+    }
+}
+</script>
+
+</body>
+</html>
